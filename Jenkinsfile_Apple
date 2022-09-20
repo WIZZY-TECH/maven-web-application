@@ -1,0 +1,11 @@
+node {
+    def mavenHome = tool name: '3.8.6'
+stage ('1clonecode')
+{git  "https://github.com/WIZZY-TECH/maven-web-application"}
+stage ('2unittest&build')
+{sh "${mavenHome}/bin/mvn clean package"}
+stage ('3codequality'){sh "${mavenHome}/bin/mvn sonar:sonar"}
+/* stage ('4uploadartifacts')
+{sh "${maveHome}/bin/mvn deploy"}*/
+stage ('deploy2uat'){sh "echo 'deploy to uat'"}
+}
