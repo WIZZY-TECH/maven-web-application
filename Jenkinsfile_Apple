@@ -14,7 +14,7 @@ stage ('ApprovalGate'){
     "timeout(time:5, unit:'DAYS')"
     input message: 'Application ready for deployment, Please review and approve'
  }
-stage ('Deploy2prod'){
+stage ('Deploy2prod'){sh "sleep 50"
     deploy adapters: [tomcat9(credentialsId: '43216b85-9c03-480a-91f7-0ffbdb4034a0', path: '', url: 'http://35.177.30.5:8080/Paypal')], contextPath: null, war: 'target/*war'
 }
 stage ('EmailNotification'){
