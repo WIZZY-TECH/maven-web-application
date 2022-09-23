@@ -8,14 +8,16 @@ stage ('3codequality'){sh "${mavenHome}/bin/mvn sonar:sonar"}
  stage ('4uploadartifacts')
 {sh "${mavenHome}/bin/mvn deploy"}
 stage ('deploy2uat'){sh "echo 'deploy to uat'"}
-deploy adapters: [tomcat9(credentialsId: '43216b85-9c03-480a-91f7-0ffbdb4034a0', path: '', url: 'http://35.177.30.5:8080/Paypal')], contextPath: null, war: 'target/*war'
+deploy adapters: [tomcat9(credentialsId: '43216b85-9c03-480a-91f7-0ffbdb4034a0', path: '', url: 'http://35.179.94.6:8080/')], contextPath: null, war: 'target/*war'
+
 stage ('ApprovalGate'){
     sh "echo 'ready for review' "
     "timeout(time:5, unit:'DAYS')"
     input message: 'Application ready for deployment, Please review and approve'
  }
 stage ('Deploy2prod'){sh "sleep 50"
-    deploy adapters: [tomcat9(credentialsId: '43216b85-9c03-480a-91f7-0ffbdb4034a0', path: '', url: 'http://35.177.30.5:8080/Paypal')], contextPath: null, war: 'target/*war'
+    deploy adapters: [tomcat9(credentialsId: '43216b85-9c03-480a-91f7-0ffbdb4034a0', path: '', url: 'http://35.179.94.6:8080/')], contextPath: null, war: 'target/*war'
+
 }
 stage ('EmailNotification'){
     emailext body: '''Hello team,
